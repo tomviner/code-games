@@ -1,7 +1,7 @@
-from collections import Iterator
+from collections import Sequence
 
 
-class Node(Iterator):
+class Node(Sequence):
     def __init__(self, value, next=None):
         self.value = value
         self._next = next
@@ -30,6 +30,23 @@ class Node(Iterator):
             return self._next
         raise StopIteration
 
+    def __getitem__(self, n):
+        index = self.value - 1
+        diff = abs(index - n)
+        if n == index:
+            return self
+        next_index = self._next.value - 1
+        next_diff = abs(next_index - n)
+        if next_diff < diff:
+            return self._next.__getitem__(n)
+        raise IndexError("can't find item {}".format(n))
+
+    def __len__(self):
+        return max(self.traverse())
+
+    def __getattribute__(self, name):
+        print '__getattribute__', name
+        return object.__getattribute__(self, name)
 
 def reverse_from_head(head):
     node = head

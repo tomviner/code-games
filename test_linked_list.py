@@ -25,6 +25,12 @@ def test_reverse_from_head(l1):
     assert reverse_from_head(l1).traverse() == [3, 2, 1]
 
 def test_builtin_reverse(l1):
-    for node, expected_val in izip(l1, [1, 2, 3]):
+    for node, expected_val in izip(reversed(l1), [3, 2, 1]):
+        print node, expected_val
         assert node.value == expected_val
 
+def test_loop(l1):
+    for node, expected_val in izip(l1, [1, 2, 3]):
+        print 'node', node, 'expected_val', expected_val
+        print
+        assert node.value == expected_val
